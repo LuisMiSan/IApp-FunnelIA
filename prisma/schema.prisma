@@ -1,0 +1,93 @@
+// Prisma Schema for FunnelIA
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model FunnelRequest {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Información Básica
+  nombre  String
+  email   String
+  empresa String
+
+  // Contexto del Negocio
+  numeroEmpleados     String // enum: 1-10, 11-50, etc
+  industria           String
+  modeloNegocio       String // B2B, B2C, B2B2C, Marketplace
+
+  // Funnel Actual (JSON)
+  funnelActual Json
+
+  // Objetivos y Recursos
+  objetivoPrincipal      String // captacion, conversion, retencion, escalado
+  presupuestoMensual     String
+  tiempoImplementacion   String
+  kpisAPriorizar         String[] // array de strings
+
+  // Audiencia (JSON)
+  clienteIdeal Json
+
+  // Estrategia generada
+  strategy FunnelStrategy?
+
+  @@index([email])
+  @@index([createdAt])
+}
+
+model FunnelStrategy {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relación con la request
+  requestId String         @unique
+  request   FunnelRequest @relation(fields: [requestId], references: [id], onDelete: Cascade)
+
+  // Todos los campos de la estrategia almacenados como JSON
+  diagnostico      Json
+  funnel           Json
+  stack            Json
+  roadmap          Json
+  kpis             Json
+  presupuesto      Json
+  automatizaciones Json
+
+  // Campos adicionales
+  recursosAdicionales Json?
+  plantillas          Json?
+
+  // Metadata
+  generationTime Int? // tiempo en ms que tomó generar
+  model          String? // modelo de IA usado
+
+  @@index([requestId])
+}
+
+model KnowledgeBase {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Knowledge chunk data
+  categoria     String
+  subcategoria  String
+  contenido     String @db.Text
+  fuente        String
+  tags          String[]
+  ejemplos      String[]
+  insightsClave String[]
+
+  // Para futuro: embeddings para RAG
+  embedding Float[]?
+
+  @@index([categoria])
+  @@index([tags])
+}
