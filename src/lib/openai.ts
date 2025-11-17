@@ -2,9 +2,17 @@ import OpenAI from 'openai';
 import { FunnelRequestForm, FunnelStrategy } from '@/types/funnel';
 import { KNOWLEDGE_CHUNKS, searchKnowledge } from '@/data/knowledge-base';
 
-// Inicializar cliente de OpenAI
+// Validar que la API key de OpenAI esté configurada
+if (!process.env.OPENAI_API_KEY) {
+  throw new Error(
+    'OPENAI_API_KEY no está configurada. Por favor, crea un archivo .env basado en .env.example ' +
+    'y agrega tu API key de OpenAI. Obtén una en: https://platform.openai.com/api-keys'
+  );
+}
+
+// Inicializar cliente de OpenAI con validación estricta
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY || '',
+  apiKey: process.env.OPENAI_API_KEY,
 });
 
 /**

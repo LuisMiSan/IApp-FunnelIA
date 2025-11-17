@@ -17,8 +17,10 @@ export default function ResultsPage() {
   const router = useRouter();
 
   useEffect(() => {
-    // Cargar estrategia desde localStorage
-    const savedStrategy = localStorage.getItem("funnelStrategy");
+    // SEGURIDAD: Cargar estrategia desde sessionStorage
+    // sessionStorage se elimina automáticamente al cerrar el navegador,
+    // protegiendo datos sensibles del negocio del cliente
+    const savedStrategy = sessionStorage.getItem("funnelStrategy");
     if (savedStrategy) {
       try {
         setStrategy(JSON.parse(savedStrategy));

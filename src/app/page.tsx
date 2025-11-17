@@ -30,9 +30,11 @@ export default function Home() {
 
       const data = await response.json();
 
-      // Guardar la estrategia en localStorage para mostrarla en la página de resultados
+      // SEGURIDAD: Usar sessionStorage en lugar de localStorage
+      // sessionStorage se elimina automáticamente al cerrar el navegador,
+      // reduciendo el riesgo de exposición de datos sensibles del negocio
       if (data.strategy) {
-        localStorage.setItem("funnelStrategy", JSON.stringify(data.strategy));
+        sessionStorage.setItem("funnelStrategy", JSON.stringify(data.strategy));
         router.push("/results");
       }
     } catch (err) {

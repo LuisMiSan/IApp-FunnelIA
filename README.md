@@ -73,24 +73,34 @@ npm install
 
 ### 3. Configurar variables de entorno
 
-Crea un archivo `.env.local` en la raíz del proyecto:
+**🔒 IMPORTANTE - SEGURIDAD PRIMERO**:
 
-```env
-# OpenAI API (REQUERIDO)
-OPENAI_API_KEY=sk-...
+1. Copia el archivo de ejemplo proporcionado:
+   ```bash
+   cp .env.example .env
+   ```
 
-# Database (Opcional - para persistencia)
-DATABASE_URL="postgresql://user:password@localhost:5432/funnel_ia?schema=public"
+2. Edita el archivo `.env` con tus credenciales **REALES**:
+   ```bash
+   nano .env  # o usa tu editor preferido
+   ```
 
-# Next.js (Opcional)
-NEXTAUTH_URL="http://localhost:3000"
-NEXTAUTH_SECRET="your-secret-key-here"
+3. Configura como mínimo la API key de OpenAI (requerida):
+   ```env
+   OPENAI_API_KEY="sk-proj-TU-API-KEY-REAL-AQUI"
+   ```
 
-# Anthropic Claude (Opcional - para análisis complejos)
-ANTHROPIC_API_KEY="sk-ant-..."
-```
+**⚠️ ADVERTENCIAS CRÍTICAS**:
+- ❌ **NUNCA subas el archivo `.env` a GitHub** (ya está en `.gitignore`)
+- ❌ **NUNCA compartas tu API key** públicamente
+- ❌ **NUNCA uses la misma key** en múltiples proyectos
+- ✅ **SIEMPRE genera un nuevo `NEXTAUTH_SECRET`** con: `openssl rand -base64 32`
 
-**IMPORTANTE**: Necesitas una API key válida de OpenAI para que la aplicación funcione.
+**📚 Para más información**: Lee la [Guía de Seguridad completa](./SECURITY.md)
+
+**Obtener API Keys**:
+- OpenAI: https://platform.openai.com/api-keys
+- Anthropic: https://console.anthropic.com/ (opcional)
 
 ### 4. (Opcional) Configurar base de datos
 
