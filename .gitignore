@@ -25,9 +25,25 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# local env files
+# local env files - SECURITY: Never commit API keys!
 .env
 .env*.local
+.env.development
+.env.production
+.env.test
+*.env
+**/.env
+**/.env.*
+
+# API keys and secrets
+**/secrets/
+**/keys/
+*.key
+*.pem
+*.p12
+*.pfx
+config.local.*
+secrets.json
 
 # vercel
 .vercel
